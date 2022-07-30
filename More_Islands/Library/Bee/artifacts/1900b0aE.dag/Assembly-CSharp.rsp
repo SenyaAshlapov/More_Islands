@@ -371,9 +371,8 @@
 "Assets/Scripts/Player/PlayerInput.cs"
 "Assets/Scripts/Player/PlayerMovement.cs"
 "Assets/Scripts/Weapon/IWeapon.cs"
-"Assets/Scripts/Weapon/MeleWeapon.cs"
-"Assets/Scripts/Weapon/RangeWeapon.cs"
-"Assets/Scripts/Weapon/WeaponDATA.cs"
+"Assets/Scripts/Weapon/MeleWeaponDATA.cs"
+"Assets/Scripts/Weapon/RangeWeaponDATA.cs"
 -langversion:9.0
 
 /deterministic

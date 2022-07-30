@@ -110,3 +110,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71f400b327a7a5f45a52d89e2f1806b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _meleWeaponData: {fileID: 11400000, guid: 5f79a6f633c150d45a0aabb7752943dd, type: 2}
