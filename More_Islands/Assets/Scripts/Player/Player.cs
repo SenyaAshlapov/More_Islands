@@ -6,6 +6,7 @@ public class Player : MonoBehaviour
     [Header("Move options")]    
     [SerializeField]private Transform _playerTransform;
     [SerializeField]private float _moveSpeed;
+    [SerializeField] private LayerMask _layerMask;
 
     [Header("Jump options")]
     [SerializeField]private AnimationCurve _jumpCurve;
@@ -23,9 +24,10 @@ public class Player : MonoBehaviour
     [Inject]
     private PlayerAttack _playerAttack;
 
-    
+    private Camera _mainCamera;
     private PlayerInput _playerInput;
     private Vector2 _moveDirection;
+    private Vector2 _mousePosition;
 
 
 
@@ -35,6 +37,12 @@ public class Player : MonoBehaviour
 
         _playerInput.Player.Jump.performed += context => playerJump();
         _playerInput.Player.Attack.performed += context => playerAttack();
+
+        _playerInput.Player.MousePosition.performed += context => playerMouseRotation();
+    }
+
+    private void Start() {
+        _mainCamera = Camera.main;
     }
 
     private void OnEnable() {
@@ -47,6 +55,7 @@ public class Player : MonoBehaviour
 
     private void Update() {
         playerMove();
+        playerMouseRotation();
     }
 
     #endregion
@@ -54,8 +63,19 @@ public class Player : MonoBehaviour
     #region Movement
 
     private void playerMove(){
-        _moveDirection = _playerInput.Player.Move.ReadValue<Vector2>();
+        _moveDirection = _playerInput.Player.Move.ReadValue<Vector2>();       
         _playerMovement.Moving(_playerTransform,_moveDirection,_moveSpeed);
+    }
+
+    private void playerMouseRotation(){
+        _mousePosition = _playerInput.Player.MousePosition.ReadValue<Vector2>();
+        Ray ray = _mainCamera.ScreenPointToRay(_mousePosition);
+        RaycastHit rayCastHit;
+        if(Physics.Raycast(ray, out rayCastHit, _layerMask))
+        {
+            _playerMovement.Rotate(_playerTransform, rayCastHit);
+        }
+       
     }
     private void playerJump() => _playerMovement.Jumping(_playerTransform, _jumpCurve, _jumpDuration, _jumpForce);
 

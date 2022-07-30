@@ -62,6 +62,15 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""MousePosition"",
+                    ""type"": ""Value"",
+                    ""id"": ""eebf1f64-ef80-4b00-96d4-a6470d95f5a8"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -207,6 +216,17 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
                     ""action"": ""Potion"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a4af8704-5928-42aa-a94f-31a8134204e3"",
+                    ""path"": ""<Mouse>/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MousePosition"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -236,6 +256,7 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
         m_Player_Attack = m_Player.FindAction("Attack", throwIfNotFound: true);
         m_Player_Potion = m_Player.FindAction("Potion", throwIfNotFound: true);
+        m_Player_MousePosition = m_Player.FindAction("MousePosition", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -299,6 +320,7 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Jump;
     private readonly InputAction m_Player_Attack;
     private readonly InputAction m_Player_Potion;
+    private readonly InputAction m_Player_MousePosition;
     public struct PlayerActions
     {
         private @PlayerInput m_Wrapper;
@@ -307,6 +329,7 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
         public InputAction @Jump => m_Wrapper.m_Player_Jump;
         public InputAction @Attack => m_Wrapper.m_Player_Attack;
         public InputAction @Potion => m_Wrapper.m_Player_Potion;
+        public InputAction @MousePosition => m_Wrapper.m_Player_MousePosition;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -328,6 +351,9 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
                 @Potion.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPotion;
                 @Potion.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPotion;
                 @Potion.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPotion;
+                @MousePosition.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMousePosition;
+                @MousePosition.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMousePosition;
+                @MousePosition.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMousePosition;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -344,6 +370,9 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
                 @Potion.started += instance.OnPotion;
                 @Potion.performed += instance.OnPotion;
                 @Potion.canceled += instance.OnPotion;
+                @MousePosition.started += instance.OnMousePosition;
+                @MousePosition.performed += instance.OnMousePosition;
+                @MousePosition.canceled += instance.OnMousePosition;
             }
         }
     }
@@ -363,5 +392,6 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
         void OnJump(InputAction.CallbackContext context);
         void OnAttack(InputAction.CallbackContext context);
         void OnPotion(InputAction.CallbackContext context);
+        void OnMousePosition(InputAction.CallbackContext context);
     }
 }

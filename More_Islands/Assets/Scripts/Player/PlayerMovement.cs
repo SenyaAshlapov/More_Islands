@@ -6,6 +6,9 @@ using Zenject;
 public class PlayerMovement : MonoBehaviour
 {
 
+    
+
+
     public void Moving(
         Transform player, 
         Vector2 direction, 
@@ -16,6 +19,18 @@ public class PlayerMovement : MonoBehaviour
         Vector3 moveDirection = new Vector3(direction.x, 0, direction.y);
         player.position += moveDirection * moveSpeed;
     }
+
+    public void Rotate(
+        Transform player, 
+        RaycastHit mousePoint)
+    {
+        Vector3 direction;
+
+        direction = mousePoint.point - player.position;      
+        direction.y = 0;
+        player.forward = direction;
+    }
+
 
     public void Jumping(
         Transform player, 
