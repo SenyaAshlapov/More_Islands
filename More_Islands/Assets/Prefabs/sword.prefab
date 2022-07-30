@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 7013340047876994630}
   - component: {fileID: 4112156745328269700}
   - component: {fileID: 1156933428312136723}
-  - component: {fileID: 3403417396773342041}
   m_Layer: 0
   m_Name: sword
   m_TagString: Untagged
@@ -98,16 +97,3 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &3403417396773342041
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2623749015839763637}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 71f400b327a7a5f45a52d89e2f1806b7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _meleWeaponData: {fileID: 11400000, guid: 5f79a6f633c150d45a0aabb7752943dd, type: 2}

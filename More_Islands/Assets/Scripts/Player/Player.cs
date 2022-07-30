@@ -9,6 +9,9 @@ public class Player : MonoBehaviour
     [SerializeField] private float _moveSpeed;
     [SerializeField] private LayerMask _layerMask;
 
+    private Vector2 _moveDirection;
+    private Vector2 _mousePosition;
+
     #endregion
 
     [Space(10)]
@@ -34,15 +37,14 @@ public class Player : MonoBehaviour
     #region  attack_options
 
     [Header("Attack options")]
-    [SerializeField] private IWeapon _currentWeapon;
+    private IWeapon _currentWeapon;
+    [SerializeField] private MeleWeaponDATA _testWeapon;
+    [SerializeField] private RangeWeaponDATA _testWeapon2;
     [SerializeField] private Transform _weaponPoint;
 
     #endregion
     private Camera _mainCamera;
     private PlayerInput _playerInput;
-    private Vector2 _moveDirection;
-    private Vector2 _mousePosition;
-
 
 
     #region Unity_functions
@@ -59,6 +61,9 @@ public class Player : MonoBehaviour
     private void Start()
     {
         _mainCamera = Camera.main;
+        //_currentWeapon = _testWeapon;
+        _currentWeapon = _testWeapon2;
+        initWeapon(_currentWeapon);
     }
 
     private void OnEnable()
@@ -106,7 +111,7 @@ public class Player : MonoBehaviour
 
     private void playerAttack()
     {
-        _playerAttack.Attacking(_currentWeapon);
+        _playerAttack.Attack(_currentWeapon);
     }
     private void initWeapon(IWeapon weapon)
     {

@@ -4,7 +4,7 @@ using Zenject;
 
 public class PlayerAttack : MonoBehaviour
 {
-    public void Attacking(IWeapon weapon)
+    public void Attack(IWeapon weapon)
     {
         weapon.Hit();
     }
