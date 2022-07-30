@@ -364,8 +364,13 @@
 "Assets/Scripts/DI/ProjectInstaller.cs"
 "Assets/Scripts/DI/SceneInstaller.cs"
 "Assets/Scripts/Player/Player.cs"
+"Assets/Scripts/Player/PlayerAttack.cs"
 "Assets/Scripts/Player/PlayerInput.cs"
 "Assets/Scripts/Player/PlayerMovement.cs"
+"Assets/Scripts/Weapon/IWeapon.cs"
+"Assets/Scripts/Weapon/MeleWeapon.cs"
+"Assets/Scripts/Weapon/RangeWeapon.cs"
+"Assets/Scripts/Weapon/WeaponDATA.cs"
 -langversion:9.0
 
 /deterministic

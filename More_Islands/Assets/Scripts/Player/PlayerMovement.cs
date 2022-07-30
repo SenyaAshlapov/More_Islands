@@ -6,7 +6,10 @@ using Zenject;
 public class PlayerMovement : MonoBehaviour
 {
 
-    public void PlayerMoving(Transform player, Vector2 direction, float speedScale)
+    public void Moving(
+        Transform player, 
+        Vector2 direction, 
+        float speedScale)
     {
         float moveSpeed = speedScale * Time.deltaTime;
 
@@ -14,12 +17,20 @@ public class PlayerMovement : MonoBehaviour
         player.position += moveDirection * moveSpeed;
     }
 
-    public void PlayerJumping(Transform player, AnimationCurve jumpTrajectory, float durarion, float jumpForce)
+    public void Jumping(
+        Transform player, 
+        AnimationCurve jumpTrajectory, 
+        float durarion, 
+        float jumpForce)
     {
         StartCoroutine(playerJump(player, jumpTrajectory, durarion, jumpForce));
     }
 
-    private IEnumerator playerJump(Transform player, AnimationCurve jumpTrajectory, float durarion, float jumpForce)
+    private IEnumerator playerJump(
+        Transform player, 
+        AnimationCurve jumpTrajectory, 
+        float durarion, 
+        float jumpForce)
     {
         float expiredTime = 0;
         float jumpProgress = 0;
@@ -32,8 +43,6 @@ public class PlayerMovement : MonoBehaviour
             jumpProgress = expiredTime / durarion; 
 
             Vector3 nextPosiotion = startPositon + new Vector3(0, jumpTrajectory.Evaluate(jumpProgress) * jumpForce, 0);
-
-           // player.position = nextPosiotion * Time.deltaTime;
             player.position = Vector3.Lerp(player.position, nextPosiotion, jumpProgress);
             yield return new WaitForSeconds(0.0001f);
             Debug.Log(player.position);
