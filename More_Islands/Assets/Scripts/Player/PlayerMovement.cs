@@ -39,6 +39,7 @@ public class PlayerMovement : MonoBehaviour
         float durarion,
         float jumpForce)
     {
+
         StartCoroutine(playerJump(player, jumpTrajectory, durarion, jumpForce));
     }
 

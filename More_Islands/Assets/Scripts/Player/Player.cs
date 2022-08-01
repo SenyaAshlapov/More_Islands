@@ -1,6 +1,7 @@
 using UnityEngine;
 using Zenject;
 
+
 public class Player : MonoBehaviour
 {
     #region move_options
@@ -13,6 +14,8 @@ public class Player : MonoBehaviour
 
     private Vector2 _moveDirection;
     private Vector2 _mousePosition;
+
+    [SerializeField]private bool _isCanMove = true;
 
     #endregion
 
@@ -39,7 +42,8 @@ public class Player : MonoBehaviour
     #region animations_options
 
     [Header("Animations options")]
-    [SerializeField]private Animator _animator;
+    [SerializeField]private Animator _playerAnimator;
+
 
     #endregion
 
@@ -62,6 +66,8 @@ public class Player : MonoBehaviour
         _playerInput.Player.Attack.performed += context => playerAttack();
 
         _playerInput.Player.MousePosition.performed += context => playerMouseRotation();
+
+        PlayerAttack.canMove += canMove;
     }
 
     private void Start()
@@ -94,8 +100,11 @@ public class Player : MonoBehaviour
 
     private void playerMove()
     {
-        _moveDirection = _playerInput.Player.Move.ReadValue<Vector2>();
-        _playerMovement.Moving(_playerTransform, _moveDirection, _moveSpeed, _animator);
+        if(_isCanMove == true){
+            _moveDirection = _playerInput.Player.Move.ReadValue<Vector2>();
+            _playerMovement.Moving(_playerTransform, _moveDirection, _moveSpeed, _playerAnimator);
+        }
+        
     }
 
     private void playerMouseRotation()
@@ -120,12 +129,14 @@ public class Player : MonoBehaviour
 
     private void playerAttack()
     {
-        _playerAttack.Attack(_currentWeapon);
+        _playerAttack.Attack(_currentWeapon, _playerAnimator);
     }
     private void initWeapon(IWeapon weapon)
     {
         weapon.InitWeapon(_weaponPoint);
     }
+
+    private void canMove(bool isCanMove) => _isCanMove = isCanMove;
 
     #endregion
 }
