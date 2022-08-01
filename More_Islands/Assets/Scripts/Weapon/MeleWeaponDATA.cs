@@ -5,9 +5,8 @@ using UnityEngine.UI;
 [CreateAssetMenu(fileName = "MeleWeaponDATA", menuName = "More_Islands/MeleWeaponDATA", order = 0)]
 public class MeleWeaponDATA : ScriptableObject, IWeapon 
 {
-
-
     [SerializeField] private GameObject _model;
+    [SerializeField] private Damager _damager;
     [SerializeField] private string _name;
     [SerializeField] private Sprite _icon;
     [SerializeField] private float _damage;
@@ -16,6 +15,7 @@ public class MeleWeaponDATA : ScriptableObject, IWeapon
 
     #region IWeapon_fields
     public GameObject Model => _model;
+    public Damager Damager => _damager;
     public string Name => _name;
     public Sprite Icon => _icon;
     public float Damage => _damage;
@@ -23,7 +23,7 @@ public class MeleWeaponDATA : ScriptableObject, IWeapon
     public WeaponTypes.weaponType Type => _weaponType;
 
     #endregion
-    public void Hit() { 
+    public void Hit(Transform shotPoint) { 
         Debug.Log("sword attack");
     }
 
@@ -34,5 +34,7 @@ public class MeleWeaponDATA : ScriptableObject, IWeapon
             Destroy(child.gameObject);
         }
         Instantiate(Model, position);
+        var damager = Instantiate(Damager, position);
+        damager.InitDamager(Damage,CoolDown);
     }
 }

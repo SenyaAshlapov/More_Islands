@@ -32,10 +32,12 @@ public class Player : MonoBehaviour
     #region  combat_options
 
     [Header("Combat options")]
-    private IWeapon _currentWeapon;
     [SerializeField] private MeleWeaponDATA _testWeapon;
     [SerializeField] private RangeWeaponDATA _testWeapon2;
     [SerializeField] private Transform _weaponPoint;
+
+    private IWeapon _currentWeapon;
+
 
     #endregion
 
@@ -68,13 +70,14 @@ public class Player : MonoBehaviour
         _playerInput.Player.MousePosition.performed += context => playerMouseRotation();
 
         PlayerAttack.canMove += canMove;
+        PlayerAttack.weaponVisible += weaponVisible;
     }
 
     private void Start()
     {
         _mainCamera = Camera.main;
-        //_currentWeapon = _testWeapon;
-        _currentWeapon = _testWeapon2;
+        _currentWeapon = _testWeapon;
+        //_currentWeapon = _testWeapon2;
         initWeapon(_currentWeapon);
     }
 
@@ -133,10 +136,11 @@ public class Player : MonoBehaviour
     }
     private void initWeapon(IWeapon weapon)
     {
-        weapon.InitWeapon(_weaponPoint);
+        _currentWeapon.InitWeapon(_weaponPoint);
     }
 
     private void canMove(bool isCanMove) => _isCanMove = isCanMove;
+    private void weaponVisible(bool isVisible) => _weaponPoint.gameObject.SetActive(isVisible);
 
     #endregion
 }

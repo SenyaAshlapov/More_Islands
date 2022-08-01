@@ -12,8 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59b0fe38913482140ac6d12d664e1594, type: 3}
   m_Name: MeleWeaponDATA
   m_EditorClassIdentifier: 
-  _model: {fileID: 2623749015839763637, guid: b0043f0e40f55254fb3ef29e95a20fbc, type: 3}
+  _model: {fileID: 7662923942572207076, guid: cbecd365299c4e44ab115c0e09367c2d, type: 3}
+  _damager: {fileID: 6405002786622242264, guid: 309ba776ea217af44b3615b8a72a9857, type: 3}
   _name: sword
   _icon: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
-  _damage: 0
+  _damage: 15
   _coolDown: 0
+  _weaponType: 0
