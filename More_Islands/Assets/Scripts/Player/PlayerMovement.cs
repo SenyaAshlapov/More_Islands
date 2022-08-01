@@ -5,15 +5,20 @@ using Zenject;
 
 public class PlayerMovement : MonoBehaviour
 {
+    [Inject]
+    private PlayerAnimations _playerAnimations;
     public void Moving(
         Transform player,
         Vector2 direction,
-        float speedScale)
+        float speedScale,
+        Animator animator)
     {
         float moveSpeed = speedScale * Time.deltaTime;
 
         Vector3 moveDirection = new Vector3(direction.x, 0, direction.y);
         player.Translate(moveDirection * moveSpeed);
+
+        _playerAnimations.PlayerWalkAnimate(direction, animator);
     }
 
     public void Rotate(

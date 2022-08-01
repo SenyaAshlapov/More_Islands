@@ -367,6 +367,7 @@
 "Assets/Scripts/DI/ProjectInstaller.cs"
 "Assets/Scripts/DI/SceneInstaller.cs"
 "Assets/Scripts/Player/Player.cs"
+"Assets/Scripts/Player/PlayerAnimations.cs"
 "Assets/Scripts/Player/PlayerAttack.cs"
 "Assets/Scripts/Player/PlayerInput.cs"
 "Assets/Scripts/Player/PlayerMovement.cs"

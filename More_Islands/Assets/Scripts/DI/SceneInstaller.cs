@@ -1,4 +1,3 @@
-using System.Net;
 using System.ComponentModel;
 using UnityEngine;
 using Zenject;
@@ -7,6 +6,7 @@ public class SceneInstaller : MonoInstaller
 {
     public PlayerMovement PlayerMovement;
     public PlayerAttack PlayerAttack;
+    public PlayerAnimations PlayerAnimations;
     public override void InstallBindings()
     {
         playreBinding();
@@ -23,6 +23,11 @@ public class SceneInstaller : MonoInstaller
             Bind<PlayerAttack>().
             FromInstance(PlayerAttack).
             AsSingle();
+
+        Container.
+            Bind<PlayerAnimations>().
+            FromInstance(PlayerAnimations).
+            AsSingle();    
         
     }
 }
