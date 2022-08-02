@@ -1,4 +1,5 @@
+using UnityEngine;
 interface IEnemyAttack 
 {
-    void EnemyAttack(float damage);
+    void EnemyAttack();
 }

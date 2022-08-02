@@ -1,5 +1,6 @@
 using UnityEngine;
 
+
 public class Damager : MonoBehaviour
 {
     private float _damage;
@@ -22,6 +23,10 @@ public class Damager : MonoBehaviour
         if(other.gameObject.GetComponent<Enemy>())
         {
             other.gameObject.GetComponent<Enemy>().GetDamage(_damage,_coolDown);
+            Destroy(this.gameObject);
         }
+            
+
+        
     }
 }

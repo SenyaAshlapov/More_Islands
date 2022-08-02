@@ -379,6 +379,7 @@
 "Assets/Scripts/DI/ProjectInstaller.cs"
 "Assets/Scripts/DI/SceneInstaller.cs"
 "Assets/Scripts/Enemy/Enemy.cs"
+"Assets/Scripts/Enemy/EnemyAnimate.cs"
 "Assets/Scripts/Enemy/IEnemyAttack.cs"
 "Assets/Scripts/Enemy/MeeleEnemyAttack.cs"
 "Assets/Scripts/Enemy/RangeEnemyAttack.cs"

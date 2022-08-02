@@ -59,8 +59,8 @@ public class Player : MonoBehaviour
 
     #endregion
 
-
-    #region Unity_functions
+    [SerializeField]private float HP = 100;
+    #region unity_functions
     private void Awake()
     {
         _playerInput = new PlayerInput();
@@ -98,6 +98,11 @@ public class Player : MonoBehaviour
         playerMouseRotation();
     }
 
+    private void OnDestroy() {
+        PlayerAttack.canMove -= canMove;
+        PlayerAttack.weaponVisible -= weaponVisible;
+    }
+
     #endregion
 
     #region Movement
@@ -129,7 +134,7 @@ public class Player : MonoBehaviour
 
     #endregion
 
-    #region Attack
+    #region Combat
 
     private void playerAttack()
     {
@@ -138,6 +143,11 @@ public class Player : MonoBehaviour
     private void initWeapon(IWeapon weapon)
     {
         _currentWeapon.InitWeapon(_weaponPoint);
+    }
+
+    public void GetDamage(float damage){
+        HP -= damage;
+        Debug.Log(HP);
     }
 
     private void canMove(bool isCanMove) => _isCanMove = isCanMove;

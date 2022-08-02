@@ -11,7 +11,6 @@ public class SceneInstaller : MonoInstaller
     public override void InstallBindings()
     {
         playreBinding();
-        enemyBinding();
     }
 
     private void playreBinding()
@@ -38,15 +37,4 @@ public class SceneInstaller : MonoInstaller
         
     }
 
-    private void enemyBinding(){
-        Container.
-            Bind<IEnemyAttack>().
-            To<RangeEnemyAttack>().
-            AsSingle();
-
-        Container.
-            Bind<IEnemyAttack>().
-            To<MeeleEnemyAttack>().
-            AsSingle();
-    }
 }

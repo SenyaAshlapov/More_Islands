@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using Zenject;
@@ -17,72 +19,100 @@ public class Enemy : MonoBehaviour
     #region injects
     [Inject]
     private Player _player;
-    [Inject]
-    private RangeEnemyAttack _rangeAttack;
-    [Inject]
-    private MeeleEnemyAttack _meeleAttack;
 
     #endregion
 
+    #region  move_options
+    [Header("Move options")]
     [SerializeField]private float _lookRadius;
-    [SerializeField]private enemyType _type;
     [SerializeField]private NavMeshAgent _navMeshAgent;
-
     private Transform _playerTarget => _player.PlayerPosition;
+
+    private float _distanceToPlayer;
+
+    #endregion
+
+    #region combat_options
+    [Header("Combat options")]
+    [SerializeField]private float _damage;
+    [SerializeField]private float _coolDown;
+    [SerializeField]private enemyType _type;
+    private bool isAtack = false;
+    private IEnemyAttack _enemyAttack;
+
+    #endregion
+
+    #region animation_options
+    [Header("Animations otions")]
+    [SerializeField]private Animator _enemyAnimator;
+    private EnemyAnimate _enemyAnimation;
+
+    #endregion
 
 
     private void Start()
     {
-       _navMeshAgent = GetComponent<NavMeshAgent>();
-       _enemyCurrnetState = degenarateStateIdle;
+        _enemyCurrnetState = degenarateStateIdle;
+        _enemyAnimation = new EnemyAnimate(_enemyAnimator);
+
+
+        if(_type == enemyType.meele){
+            _enemyAttack = new MeeleEnemyAttack();
+        }
+        else
+        {
+            _enemyAttack = new RangeEnemyAttack();
+        }
+    }
+    private void FixedUpdate() 
+    {
+        _enemyCurrnetState();
+        _distanceToPlayer = Vector3.Distance(transform.position, _playerTarget.position);
+        
+        if(_distanceToPlayer > _lookRadius){
+            _enemyCurrnetState = degenarateStateIdle;
+        }
+
+        if(_distanceToPlayer <= _lookRadius && _distanceToPlayer > _navMeshAgent.stoppingDistance){
+            _enemyCurrnetState = degenarateStateFollow;
+        }
+
+        if(_distanceToPlayer < _navMeshAgent.stoppingDistance){
+            _enemyCurrnetState = degenarateStateAttack;
+        }
+
+
+        
     }
 
     #region degenarate_state_machine
     private void degenarateStateIdle()
     {
-        Debug.Log("idle");
+        _enemyAnimation.AnimateIdle();
     }
 
     private void degenarateStateFollow()
     {
         followPlayer();
-        Debug.Log("follow");
+        _enemyAnimation.AnimateMove();
     }
 
     private void degenarateStateAttack()
     {
-        Debug.Log("attack");
-        if(_type == enemyType.meele)
+
+        if(isAtack == false)
         {
-            _meeleAttack.EnemyAttack(10);
+            StartCoroutine(attack());
         }
-        else
-        {
-            _rangeAttack.EnemyAttack(12);
-        }
+        
     }
 
     private void degenarateStateDying()
     {
-
+        _enemyAnimation.AnimateDead();
     }
 
     #endregion
-    private void Update() 
-    {
-        _enemyCurrnetState();
-        float distanceToPlayer = Vector3.Distance(transform.position, _playerTarget.position);
-
-        if(distanceToPlayer <= _lookRadius && distanceToPlayer > _navMeshAgent.stoppingDistance){
-            _enemyCurrnetState = degenarateStateFollow;
-        }
-
-        if(distanceToPlayer <= _navMeshAgent.stoppingDistance)
-        {
-            _enemyCurrnetState = degenarateStateAttack;
-        }
-        
-    }
 
     private void followPlayer(){
         _navMeshAgent.SetDestination(_playerTarget.position);
@@ -92,10 +122,29 @@ public class Enemy : MonoBehaviour
         Debug.Log(damage);
     }
 
-
-
     private void OnDrawGizmos() {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, _lookRadius);
+    }
+
+    private IEnumerator attack(){
+        isAtack = true;
+        yield return new WaitForSeconds(_coolDown);
+
+        if(_type == enemyType.meele){
+            _enemyAnimation.AnimateSlash();
+        }
+        else{
+            _enemyAnimation.AnimateShot();
+        }
+        yield return new WaitForSeconds(0.2f);
+        _enemyAnimation.AnimateIdle();
+
+        _player.GetDamage(_damage);
+        
+        yield return new WaitForSeconds(_coolDown);
+        isAtack = false;
+
+        yield return null;
     }
 }
