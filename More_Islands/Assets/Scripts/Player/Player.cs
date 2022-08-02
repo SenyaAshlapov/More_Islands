@@ -4,18 +4,30 @@ using Zenject;
 
 public class Player : MonoBehaviour
 {
+    
+    #region injects
+    [Inject]
+    private PlayerMovement _playerMovement;
+
+    [Inject]
+    private PlayerAttack _playerAttack;
+
+    #endregion
+    
     #region move_options
     [Header("Move options")]
     [SerializeField] private Transform _playerTransform;
+    public Transform PlayerPosition => _playerTransform;
     [SerializeField] private float _moveSpeed;
     [SerializeField] private LayerMask _layerMask;
+    [SerializeField]private bool _isCanMove = true;
     private Camera _mainCamera;
     private PlayerInput _playerInput;
 
     private Vector2 _moveDirection;
     private Vector2 _mousePosition;
 
-    [SerializeField]private bool _isCanMove = true;
+    
 
     #endregion
 
@@ -38,23 +50,12 @@ public class Player : MonoBehaviour
 
     private IWeapon _currentWeapon;
 
-
     #endregion
 
+    [Space(10)]
     #region animations_options
-
     [Header("Animations options")]
     [SerializeField]private Animator _playerAnimator;
-
-
-    #endregion
-
-    #region injects
-    [Inject]
-    private PlayerMovement _playerMovement;
-
-    [Inject]
-    private PlayerAttack _playerAttack;
 
     #endregion
 
