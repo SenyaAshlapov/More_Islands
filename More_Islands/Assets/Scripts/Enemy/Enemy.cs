@@ -8,6 +8,7 @@ enum enemyType{
     meele,
     range
 }
+
 public class Enemy : MonoBehaviour
 {
     #region  delegates
@@ -88,13 +89,13 @@ public class Enemy : MonoBehaviour
     #region degenarate_state_machine
     private void degenarateStateIdle()
     {
-        _enemyAnimation.AnimateIdle();
+        _enemyAnimation.ChangeAnimation(_enemyAnimation.IDLE_KEY);
     }
 
     private void degenarateStateFollow()
     {
         followPlayer();
-        _enemyAnimation.AnimateMove();
+        _enemyAnimation.ChangeAnimation(_enemyAnimation.RUN_KEY);
     }
 
     private void degenarateStateAttack()
@@ -109,7 +110,7 @@ public class Enemy : MonoBehaviour
 
     private void degenarateStateDying()
     {
-        _enemyAnimation.AnimateDead();
+        _enemyAnimation.ChangeAnimation(_enemyAnimation.DEAD_KEY);
     }
 
     #endregion
@@ -132,13 +133,14 @@ public class Enemy : MonoBehaviour
         yield return new WaitForSeconds(_coolDown);
 
         if(_type == enemyType.meele){
-            _enemyAnimation.AnimateSlash();
+            _enemyAnimation.ChangeAnimation(_enemyAnimation.SLASH_KEY);
         }
         else{
-            _enemyAnimation.AnimateShot();
+            _enemyAnimation.ChangeAnimation(_enemyAnimation.SHOT_KEY);
         }
         yield return new WaitForSeconds(0.2f);
-        _enemyAnimation.AnimateIdle();
+        _enemyAnimation.ChangeAnimation(_enemyAnimation.IDLE_KEY);
+
 
         _player.GetDamage(_damage);
         

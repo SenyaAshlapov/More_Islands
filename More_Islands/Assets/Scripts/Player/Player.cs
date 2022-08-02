@@ -77,8 +77,8 @@ public class Player : MonoBehaviour
     private void Start()
     {
         _mainCamera = Camera.main;
-        _currentWeapon = _testWeapon;
-        //_currentWeapon = _testWeapon2;
+        //_currentWeapon = _testWeapon;
+        _currentWeapon = _testWeapon2;
         initWeapon(_currentWeapon);
     }
 
