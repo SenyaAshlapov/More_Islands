@@ -157,7 +157,7 @@ public class Player : MonoBehaviour
         if(_isAlive == true)
             _playerMovement.Jumping(_playerTransform, _jumpCurve, _jumpDuration, _jumpForce);
     }
-     
+   
 
     #endregion
 
