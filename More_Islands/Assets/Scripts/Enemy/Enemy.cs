@@ -35,11 +35,13 @@ public class Enemy : MonoBehaviour
 
     #region combat_options
     [Header("Combat options")]
+
+    [SerializeField]private float _health;
     [SerializeField]private float _damage;
     [SerializeField]private float _coolDown;
     [SerializeField]private enemyType _type;
     private bool isAtack = false;
-    private IEnemyAttack _enemyAttack;
+    private bool _isAlive = true;
 
     #endregion
 
@@ -55,32 +57,35 @@ public class Enemy : MonoBehaviour
     {
         _enemyCurrnetState = degenarateStateIdle;
         _enemyAnimation = new EnemyAnimate(_enemyAnimator);
-
-
-        if(_type == enemyType.meele){
-            _enemyAttack = new MeeleEnemyAttack();
-        }
-        else
-        {
-            _enemyAttack = new RangeEnemyAttack();
-        }
     }
     private void FixedUpdate() 
     {
         _enemyCurrnetState();
-        _distanceToPlayer = Vector3.Distance(transform.position, _playerTarget.position);
+        if(_isAlive == true)
+        {
+            _distanceToPlayer = Vector3.Distance(transform.position, _playerTarget.position);
         
-        if(_distanceToPlayer > _lookRadius){
-            _enemyCurrnetState = degenarateStateIdle;
-        }
+            if(_distanceToPlayer > _lookRadius)
+            {
+                _enemyCurrnetState = degenarateStateIdle;
+            }
 
-        if(_distanceToPlayer <= _lookRadius && _distanceToPlayer > _navMeshAgent.stoppingDistance){
-            _enemyCurrnetState = degenarateStateFollow;
-        }
+            if(_distanceToPlayer <= _lookRadius && _distanceToPlayer > _navMeshAgent.stoppingDistance)
+            {
+                _enemyCurrnetState = degenarateStateFollow;
+            }
 
-        if(_distanceToPlayer < _navMeshAgent.stoppingDistance){
-            _enemyCurrnetState = degenarateStateAttack;
+            if(_distanceToPlayer <= _navMeshAgent.stoppingDistance)
+            {
+                _enemyCurrnetState = degenarateStateAttack;
+            }
         }
+        else
+        {
+            _enemyCurrnetState = degenarateStateDying;
+        }
+        
+        
 
 
         
@@ -103,14 +108,14 @@ public class Enemy : MonoBehaviour
 
         if(isAtack == false)
         {
-            StartCoroutine(attack());
+            StartCoroutine(IEattack());
         }
         
     }
 
     private void degenarateStateDying()
     {
-        _enemyAnimation.ChangeAnimation(_enemyAnimation.DEAD_KEY);
+        StartCoroutine(IEdying());
     }
 
     #endregion
@@ -120,7 +125,10 @@ public class Enemy : MonoBehaviour
     }
 
     public void GetDamage(float damage, float coolDown){
-        Debug.Log(damage);
+        _health -= damage;
+        if(_health <= 0){
+            _isAlive = false;
+        }
     }
 
     private void OnDrawGizmos() {
@@ -128,9 +136,10 @@ public class Enemy : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, _lookRadius);
     }
 
-    private IEnumerator attack(){
+    private IEnumerator IEattack(){
         isAtack = true;
-        yield return new WaitForSeconds(_coolDown);
+        _enemyAnimation.ChangeAnimation(_enemyAnimation.IDLE_KEY);
+        yield return new WaitForSeconds(_coolDown/2);
 
         if(_type == enemyType.meele){
             _enemyAnimation.ChangeAnimation(_enemyAnimation.SLASH_KEY);
@@ -144,9 +153,15 @@ public class Enemy : MonoBehaviour
 
         _player.GetDamage(_damage);
         
-        yield return new WaitForSeconds(_coolDown);
+        yield return new WaitForSeconds(_coolDown/2);
         isAtack = false;
 
         yield return null;
+    }
+
+    private IEnumerator IEdying(){
+        _enemyAnimation.ChangeAnimation(_enemyAnimation.DEAD_KEY);
+        yield return new WaitForSeconds(3f);
+        Destroy(this.gameObject);
     }
 }

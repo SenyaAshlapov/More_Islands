@@ -12,17 +12,17 @@ public class EnemyAnimate : MonoBehaviour
     public string SLASH_KEY = "slash";
     public string SHOT_KEY = "shot";
     public string DEAD_KEY = "dead";
-    private string _currentAnimation;
+    private string _currentAnimation = "Idle";
 
     public EnemyAnimate(Animator animator)=> _animator = animator;
 
     public void ChangeAnimation(string key)
     {
-        if(_currentAnimation != null){
-            _animator.SetBool(_currentAnimation, false);
-        }
+        _animator.SetBool(_currentAnimation, false);  
+             
         _animator.SetBool(key, true);
-        _currentAnimation = key;
+        _currentAnimation = key;    
     }
+
 
 }

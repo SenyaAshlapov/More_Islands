@@ -8,6 +8,9 @@ public class PlayerAttack : MonoBehaviour
     public static attackEvent canMove;
     public static attackEvent weaponVisible;
 
+    [Inject]
+    private PlayerAnimations _playerAnimations;
+
     [SerializeField]private Transform _shotPoint;
 
     public void Attack(IWeapon weapon, Animator animator)
@@ -22,12 +25,14 @@ public class PlayerAttack : MonoBehaviour
 
         if(weapon.Type == WeaponTypes.weaponType.meele)
         {
-            animator.Play("Base Layer.player slash", 0, 0.25f);
+             _playerAnimations.PlayerSlashAniamte(animator);
         }    
         else
         {
-            animator.Play("Base Layer.player shot", 0, 0.25f);
+            _playerAnimations.PlayerShotAniamte(animator);
+            
         }
+        
         weapon.Hit(_shotPoint);
         yield return new WaitForSeconds(0.8f);
 

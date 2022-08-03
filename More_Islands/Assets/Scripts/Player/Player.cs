@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 
@@ -11,6 +13,9 @@ public class Player : MonoBehaviour
 
     [Inject]
     private PlayerAttack _playerAttack;
+        
+    [Inject]
+    private PlayerAnimations _playerAnimations;
 
     #endregion
     
@@ -44,11 +49,13 @@ public class Player : MonoBehaviour
     #region  combat_options
 
     [Header("Combat options")]
+
+    [SerializeField] private float _health;
     [SerializeField] private MeleWeaponDATA _testWeapon;
     [SerializeField] private RangeWeaponDATA _testWeapon2;
     [SerializeField] private Transform _weaponPoint;
-
     private IWeapon _currentWeapon;
+    private bool _isAlive = true;
 
     #endregion
 
@@ -59,7 +66,7 @@ public class Player : MonoBehaviour
 
     #endregion
 
-    [SerializeField]private float HP = 100;
+
     #region unity_functions
     private void Awake()
     {
@@ -94,8 +101,16 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        playerMove();
-        playerMouseRotation();
+        if(_isAlive == true)
+        {
+            playerMove();
+            playerMouseRotation();
+        }
+        else
+        {
+            playerDead();
+        }
+
     }
 
     private void OnDestroy() {
@@ -109,7 +124,8 @@ public class Player : MonoBehaviour
 
     private void playerMove()
     {
-        if(_isCanMove == true){
+        if(_isCanMove == true)
+        {
             _moveDirection = _playerInput.Player.Move.ReadValue<Vector2>();
             _playerMovement.Moving(_playerTransform, _moveDirection, _moveSpeed, _playerAnimator);
         }
@@ -118,10 +134,13 @@ public class Player : MonoBehaviour
 
     private void playerMouseRotation()
     {
-        if(_moveDirection.x + _moveDirection.y != 0){
+        if(_moveDirection.x + _moveDirection.y != 0)
+        {
             _mousePosition = _playerInput.Player.MousePosition.ReadValue<Vector2>();
+
             Ray ray = _mainCamera.ScreenPointToRay(_mousePosition);
             RaycastHit rayCastHit;
+
             if (Physics.Raycast(ray, out rayCastHit, _layerMask))
             {
                 _playerMovement.Rotate(_playerTransform, rayCastHit);
@@ -130,7 +149,12 @@ public class Player : MonoBehaviour
         
 
     }
-    private void playerJump() => _playerMovement.Jumping(_playerTransform, _jumpCurve, _jumpDuration, _jumpForce);
+    private void playerJump() 
+    {
+        if(_isAlive == true)
+            _playerMovement.Jumping(_playerTransform, _jumpCurve, _jumpDuration, _jumpForce);
+    }
+     
 
     #endregion
 
@@ -138,7 +162,8 @@ public class Player : MonoBehaviour
 
     private void playerAttack()
     {
-        _playerAttack.Attack(_currentWeapon, _playerAnimator);
+        if(_isAlive == true)
+            _playerAttack.Attack(_currentWeapon, _playerAnimator);
     }
     private void initWeapon(IWeapon weapon)
     {
@@ -146,12 +171,28 @@ public class Player : MonoBehaviour
     }
 
     public void GetDamage(float damage){
-        HP -= damage;
-        Debug.Log(HP);
+        _health -= damage;
+        if(_health <= 0 )
+        {
+            _isAlive = false;
+        }
     }
 
     private void canMove(bool isCanMove) => _isCanMove = isCanMove;
     private void weaponVisible(bool isVisible) => _weaponPoint.gameObject.SetActive(isVisible);
 
+    #endregion
+
+    #region Dying
+
+    private void playerDead(){
+        StartCoroutine(IEdying());
+    }
+
+    private IEnumerator IEdying(){
+        _playerAnimations.PlayerDeadAnnimate(_playerAnimator);
+
+        yield return null;   
+    }
     #endregion
 }
