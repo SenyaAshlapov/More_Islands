@@ -139,12 +139,15 @@ public class Player : MonoBehaviour
             _mousePosition = _playerInput.Player.MousePosition.ReadValue<Vector2>();
 
             Ray ray = _mainCamera.ScreenPointToRay(_mousePosition);
-            RaycastHit rayCastHit;
-
-            if (Physics.Raycast(ray, out rayCastHit, _layerMask))
+            RaycastHit[] rayCastHits = Physics.RaycastAll(ray, _layerMask);
+            foreach(RaycastHit hit in rayCastHits)
             {
-                _playerMovement.Rotate(_playerTransform, rayCastHit);
+                if(hit.collider.gameObject.layer == LayerMask.NameToLayer("Ground")){
+                    _playerMovement.Rotate(_playerTransform, hit);
+                }
+                
             }
+
         }
         
 
@@ -191,6 +194,7 @@ public class Player : MonoBehaviour
 
     private IEnumerator IEdying(){
         _playerAnimations.PlayerDeadAnnimate(_playerAnimator);
+
 
         yield return null;   
     }

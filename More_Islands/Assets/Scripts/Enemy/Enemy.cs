@@ -124,7 +124,7 @@ public class Enemy : MonoBehaviour
         _navMeshAgent.SetDestination(_playerTarget.position);
     }
 
-    public void GetDamage(float damage, float coolDown){
+    public void GetDamage(float damage){
         _health -= damage;
         if(_health <= 0){
             _isAlive = false;
@@ -147,7 +147,7 @@ public class Enemy : MonoBehaviour
         else{
             _enemyAnimation.ChangeAnimation(_enemyAnimation.SHOT_KEY);
         }
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.8f);
         _enemyAnimation.ChangeAnimation(_enemyAnimation.IDLE_KEY);
 
 

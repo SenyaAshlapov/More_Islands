@@ -4,13 +4,12 @@ using UnityEngine;
 public class Damager : MonoBehaviour
 {
     private float _damage;
-    private float _coolDown;
+
     [SerializeField]private Rigidbody _rigidBody;
     [SerializeField]private float _speed;
 
-    public void InitDamager(float damage, float coolDown){
+    public void InitDamager(float damage){
         _damage = damage;
-        _coolDown = coolDown;
 
     }
 
@@ -22,11 +21,10 @@ public class Damager : MonoBehaviour
     {
         if(other.gameObject.GetComponent<Enemy>())
         {
-            other.gameObject.GetComponent<Enemy>().GetDamage(_damage,_coolDown);
+            other.gameObject.GetComponent<Enemy>().GetDamage(_damage);
             Destroy(this.gameObject);
         }
             
-
         
     }
 }
