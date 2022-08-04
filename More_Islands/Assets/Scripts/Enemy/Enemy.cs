@@ -107,6 +107,7 @@ public class Enemy : MonoBehaviour
 
     private void degenarateStateAttack()
     {
+        transform.LookAt(_playerTarget, Vector3.up);
 
         if(isAtack == false)
         {
@@ -165,8 +166,8 @@ public class Enemy : MonoBehaviour
         yield return new WaitForSeconds(0.8f);
         _enemyAnimation.ChangeAnimation(_enemyAnimation.IDLE_KEY);
 
-
-        _player.GetDamage(_damage);
+        if(_isAlive == true)
+            _player.GetDamage(_damage);
         
         yield return new WaitForSeconds(_coolDown/2);
         isAtack = false;

@@ -57,10 +57,9 @@ public class Player : MonoBehaviour
     [Header("Combat options")]
 
     [SerializeField] private float _health;
-    [SerializeField] private MeleWeaponDATA _testWeapon;
-    [SerializeField] private RangeWeaponDATA _testWeapon2;
+    [SerializeField] private Weapon _startWeapon;
     [SerializeField] private Transform _weaponPoint;
-    private IWeapon _currentWeapon;
+    private Weapon _currentWeapon;
     private bool _isAlive = true;
 
     #endregion
@@ -96,8 +95,8 @@ public class Player : MonoBehaviour
     private void Start()
     {
         _mainCamera = Camera.main;
-        //_currentWeapon = _testWeapon;
-        _currentWeapon = _testWeapon2;
+        _currentWeapon = _startWeapon;
+
         initWeapon(_currentWeapon);
     }
 
@@ -122,6 +121,8 @@ public class Player : MonoBehaviour
         {
             playerDead();
         }
+
+        
 
     }
 
@@ -179,7 +180,7 @@ public class Player : MonoBehaviour
         if(_isAlive == true)
             _playerAttack.Attack(_currentWeapon, _playerAnimator);
     }
-    private void initWeapon(IWeapon weapon)
+    private void initWeapon(Weapon weapon)
     {
         _currentWeapon.InitWeapon(_weaponPoint);
     }
@@ -201,9 +202,10 @@ public class Player : MonoBehaviour
 
     #region Dying
 
-    public void UpdateWeapon(IWeapon newWeapon)
+    public void UpdateWeapon(Weapon newWeapon)
     {
         _currentWeapon = newWeapon;
+        initWeapon(_currentWeapon);
     }
     private void playerDead(){
         StartCoroutine(IEdying());

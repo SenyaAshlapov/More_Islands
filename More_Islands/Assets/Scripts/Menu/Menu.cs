@@ -9,6 +9,8 @@ public class Menu : MonoBehaviour
     private Saver _saver;
     [SerializeField]private TMP_Text _bastScore;
     [SerializeField]private TMP_Text _currentScore;
+    [SerializeField]private GameObject _options;
+    private bool _isOptionsShow = false;
 
     private void Start() {
         _saver = new Saver();
@@ -39,7 +41,8 @@ public class Menu : MonoBehaviour
 
     public void ShowOptions()
     {
-
+        _isOptionsShow = !_isOptionsShow;
+        _options.SetActive(_isOptionsShow);
     }
 
     public void ExitGAme()

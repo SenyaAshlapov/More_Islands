@@ -11,19 +11,23 @@ public class PlayerAttack : MonoBehaviour
     [Inject]
     private PlayerAnimations _playerAnimations;
 
-    [SerializeField]private Transform _shotPoint;
+    [SerializeField] Transform _rayPoint;
 
-    public void Attack(IWeapon weapon, Animator animator)
+    public void Attack(Weapon weapon, Animator animator)
     {
         StartCoroutine(playerAttack(weapon,animator));
     }
 
-    private IEnumerator playerAttack(IWeapon weapon, Animator animator)
+    private void Update() {
+        Debug.DrawRay(_rayPoint.transform.position, _rayPoint.transform.TransformDirection(Vector3.forward), Color.blue);
+    }
+
+    private IEnumerator playerAttack(Weapon weapon, Animator animator)
     {
         canMove?.Invoke(false);
         weaponVisible?.Invoke(true);
 
-        if(weapon.Type == WeaponTypes.weaponType.meele)
+        if(weapon._weaponType == WeaponTypes.weaponType.meele)
         {
              _playerAnimations.PlayerSlashAniamte(animator);
         }    
@@ -33,7 +37,7 @@ public class PlayerAttack : MonoBehaviour
             
         }
         
-        weapon.Hit(_shotPoint);
+        weapon.Hit(_rayPoint);
         yield return new WaitForSeconds(0.8f);
 
         canMove?.Invoke(true);
