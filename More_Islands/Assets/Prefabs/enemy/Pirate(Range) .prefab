@@ -136,7 +136,7 @@ MonoBehaviour:
   _lookRadius: 12
   _navMeshAgent: {fileID: 421547075671057992}
   _health: 1
-  _damage: 6
+  _damage: 4
   _coolDown: 4.5
   _type: 1
   _enemyAnimator: {fileID: 6103282930813052473}

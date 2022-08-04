@@ -9,6 +9,10 @@ public class Player : MonoBehaviour
     public delegate void playerSpawnerEvent(Player player);
     public static playerSpawnerEvent playerInit;
 
+    public delegate void playerEvent();
+    public static playerEvent PlayerDying;
+
+
     #region injects
     [Inject]
     private PlayerMovement _playerMovement;
@@ -67,6 +71,9 @@ public class Player : MonoBehaviour
     [SerializeField]private Animator _playerAnimator;
 
     #endregion
+
+    [Header("UI Options")]
+    [SerializeField]private Health _healthBar;
 
 
     #region unity_functions
@@ -163,7 +170,6 @@ public class Player : MonoBehaviour
             _playerMovement.Jumping(_playerTransform, _jumpCurve, _jumpDuration, _jumpForce);
     }
    
-
     #endregion
 
     #region Combat
@@ -180,9 +186,11 @@ public class Player : MonoBehaviour
 
     public void GetDamage(float damage){
         _health -= damage;
+        _healthBar.UpdateHealthBar(_health);
         if(_health <= 0 )
         {
             _isAlive = false;
+            PlayerDying?.Invoke();
         }
     }
 
@@ -193,6 +201,10 @@ public class Player : MonoBehaviour
 
     #region Dying
 
+    public void UpdateWeapon(IWeapon newWeapon)
+    {
+        _currentWeapon = newWeapon;
+    }
     private void playerDead(){
         StartCoroutine(IEdying());
     }

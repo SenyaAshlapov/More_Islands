@@ -1,13 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Zenject;
 
-
-
-public class PlayerSpawner : MonoInstaller
+public class PlayerSpawner : MonoBehaviour 
 {
-
     private void Awake() {
         Player.playerInit += initPlayer;
     }

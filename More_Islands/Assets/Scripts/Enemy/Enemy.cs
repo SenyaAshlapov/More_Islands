@@ -50,7 +50,14 @@ public class Enemy : MonoBehaviour
 
     #endregion
 
+    private void Awake() {
+        Level.LevelComplete += levelComplete;
+    }
 
+    private void OnDestroy() 
+    {
+        Level.LevelComplete -= levelComplete;
+    }
     private void Start()
     {
         GetPlayer(PlayerSpawner._playerSingoltone);
@@ -123,10 +130,15 @@ public class Enemy : MonoBehaviour
 
     public void GetDamage(float damage){
         _health -= damage;
-        if(_health <= 0){
+        if(_isAlive == true)
+        {
+            if(_health <= 0)
+            {
             _isAlive = false;
             EnemyDying?.Invoke();
+            }
         }
+        
     }
     public void GetPlayer(Player player) 
     {
@@ -162,12 +174,19 @@ public class Enemy : MonoBehaviour
         yield return null;
     }
 
+    private void levelComplete()
+    {
+        
+        _enemyCurrnetState = degenarateStateDying;
+    }
     private IEnumerator IEdying(){
         
         _enemyAnimation.ChangeAnimation(_enemyAnimation.DEAD_KEY);
         yield return new WaitForSeconds(3f);
         Destroy(this.gameObject);
     }
+
+
 
 }
 
