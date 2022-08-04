@@ -1,0 +1,66 @@
+<linker>
+	<assembly fullname="Assembly-CSharp" ignoreIfMissing="1">
+		<type fullname="LevelCompleteWindows">
+			<method name="LeaveLevel"/>
+			<method name="LeaveLevel"/>
+			<method name="LeaveLevel"/>
+			<method name="LeaveLevel"/>
+			<method name="LeaveLevel"/>
+			<method name="LeaveLevel"/>
+			<method name="ReastartLevel"/>
+			<method name="ReastartLevel"/>
+			<method name="ReastartLevel"/>
+		</type>
+		<type fullname="Menu">
+			<method name="ContinueGame"/>
+			<method name="NewGame"/>
+			<method name="ShowOptions"/>
+		</type>
+		<type fullname="Options">
+			<method name="MusicTogle"/>
+			<method name="MusicTogle"/>
+			<method name="MusicTogle"/>
+			<method name="MusicTogle"/>
+			<method name="SaveOptions"/>
+			<method name="SaveOptions"/>
+			<method name="SaveOptions"/>
+			<method name="SaveOptions"/>
+		</type>
+		<type fullname="PlayerMenu">
+			<method name="ContinueGame"/>
+			<method name="ContinueGame"/>
+			<method name="ContinueGame"/>
+			<method name="LeaveLevel"/>
+			<method name="LeaveLevel"/>
+			<method name="LeaveLevel"/>
+			<method name="MenuEnable"/>
+			<method name="MenuEnable"/>
+			<method name="MenuEnable"/>
+			<method name="ReastartLevel"/>
+			<method name="ReastartLevel"/>
+			<method name="ReastartLevel"/>
+			<method name="ShowOptions"/>
+			<method name="ShowOptions"/>
+			<method name="ShowOptions"/>
+		</type>
+	</assembly>
+	<assembly fullname="Unity.RenderPipelines.Core.Runtime" ignoreIfMissing="1">
+		<type fullname="UnityEngine.Rendering.UI.DebugUIHandlerIntField">
+			<method name="OnDecrement"/>
+			<method name="OnDecrement"/>
+			<method name="OnIncrement"/>
+			<method name="OnIncrement"/>
+		</type>
+		<type fullname="UnityEngine.Rendering.UI.DebugUIHandlerPanel">
+			<method name="OnScrollbarClicked"/>
+			<method name="OnScrollbarClicked"/>
+			<method name="ResetDebugManager"/>
+		</type>
+		<type fullname="UnityEngine.Rendering.UI.DebugUIHandlerUIntField">
+			<method name="OnDecrement"/>
+			<method name="OnDecrement"/>
+			<method name="OnIncrement"/>
+			<method name="OnIncrement"/>
+		</type>
+	</assembly>
+</linker>

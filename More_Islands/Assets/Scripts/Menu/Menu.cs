@@ -45,7 +45,7 @@ public class Menu : MonoBehaviour
         _options.SetActive(_isOptionsShow);
     }
 
-    public void ExitGAme()
+    public void ExitGame()
     {
 
     }

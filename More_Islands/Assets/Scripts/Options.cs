@@ -11,7 +11,7 @@ public class Options : MonoBehaviour
     [SerializeField]private Slider _musicSlider;
     [SerializeField]private Slider _embientSlider;
     [SerializeField]private Slider _effectsSlider;
-    void Start()
+    void Awake()
     {
         loadOptions();
     }

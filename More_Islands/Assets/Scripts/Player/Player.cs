@@ -68,6 +68,8 @@ public class Player : MonoBehaviour
     #region animations_options
     [Header("Animations options")]
     [SerializeField]private Animator _playerAnimator;
+    
+    [SerializeField] private AudioSource _punchSound;
 
     #endregion
 
@@ -121,9 +123,6 @@ public class Player : MonoBehaviour
         {
             playerDead();
         }
-
-        
-
     }
 
     private void OnDestroy() {
@@ -188,6 +187,7 @@ public class Player : MonoBehaviour
     public void GetDamage(float damage){
         _health -= damage;
         _healthBar.UpdateHealthBar(_health);
+        _punchSound.Play();
         if(_health <= 0 )
         {
             _isAlive = false;

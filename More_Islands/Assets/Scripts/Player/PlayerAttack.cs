@@ -13,6 +13,9 @@ public class PlayerAttack : MonoBehaviour
 
     [SerializeField] Transform _rayPoint;
 
+    [SerializeField] private AudioSource _shotSound;
+
+
     public void Attack(Weapon weapon, Animator animator)
     {
         StartCoroutine(playerAttack(weapon,animator));
@@ -34,6 +37,8 @@ public class PlayerAttack : MonoBehaviour
         else
         {
             _playerAnimations.PlayerShotAniamte(animator);
+            yield return new WaitForSeconds(0.3f);
+            _shotSound.Play();
             
         }
         

@@ -399,6 +399,7 @@
 "Assets/Scripts/Envoirment/PalmSpawner.cs"
 "Assets/Scripts/Envoirment/PlayerSpawner.cs"
 "Assets/Scripts/Level/Level.cs"
+"Assets/Scripts/Level/LevelCompleteWindows.cs"
 "Assets/Scripts/Level/LevelData.cs"
 "Assets/Scripts/Level/LoadSecene.cs"
 "Assets/Scripts/Level/Saver.cs"

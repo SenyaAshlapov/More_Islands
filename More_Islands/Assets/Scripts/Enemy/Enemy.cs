@@ -48,6 +48,9 @@ public class Enemy : MonoBehaviour
     [SerializeField]private Animator _enemyAnimator;
     private EnemyAnimate _enemyAnimation;
 
+    [SerializeField] private AudioSource _shotSound;
+    [SerializeField] private AudioSource _punchSound;
+
     #endregion
 
     private void Awake() {
@@ -61,7 +64,7 @@ public class Enemy : MonoBehaviour
     private void Start()
     {
         GetPlayer(PlayerSpawner._playerSingoltone);
-
+        
         _enemyCurrnetState = degenarateStateIdle;
         _enemyAnimation = new EnemyAnimate(_enemyAnimator);
     }
@@ -133,6 +136,7 @@ public class Enemy : MonoBehaviour
         _health -= damage;
         if(_isAlive == true)
         {
+            _punchSound.Play(0);
             if(_health <= 0)
             {
             _isAlive = false;
@@ -162,6 +166,8 @@ public class Enemy : MonoBehaviour
         }
         else{
             _enemyAnimation.ChangeAnimation(_enemyAnimation.SHOT_KEY);
+            yield return new WaitForSeconds(0.3f);
+            _shotSound.Play();
         }
         yield return new WaitForSeconds(0.8f);
         _enemyAnimation.ChangeAnimation(_enemyAnimation.IDLE_KEY);

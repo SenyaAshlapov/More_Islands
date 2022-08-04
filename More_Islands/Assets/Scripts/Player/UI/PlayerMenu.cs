@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -11,7 +9,12 @@ public class PlayerMenu : MonoBehaviour
     [SerializeField]private GameObject _gamePlayUI;
 
     [SerializeField]private GameObject _options;
+
+    [SerializeField]private GameObject _levelCompleteWindow;
+    [SerializeField]private GameObject _levelFailWindow;
     private bool _isOptionsShow = false;
+
+
     public void MenuEnable()
     {
         Time.timeScale = 0f;
@@ -45,6 +48,8 @@ public class PlayerMenu : MonoBehaviour
         _isOptionsShow = !_isOptionsShow;
         _options.SetActive(_isOptionsShow);
     }
+
+
 
 
 }
