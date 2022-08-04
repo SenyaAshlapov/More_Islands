@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using UnityEngine;
 using Zenject;
 
@@ -17,7 +18,7 @@ public class SceneInstaller : MonoInstaller
         Container.
             Bind<Player>().
             FromInstance(Player).
-            AsSingle();
+            AsCached();
 
         Container.
             Bind<PlayerMovement>().

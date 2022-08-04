@@ -13,15 +13,13 @@ public class Enemy : MonoBehaviour
 {
     #region  delegates
     private delegate void EnemyState();
+    public delegate void EnemyAction();
     private EnemyState _enemyCurrnetState;
 
-    #endregion
+    public static EnemyAction EnemyDying;
 
-    #region injects
-    [Inject]
+    #endregion
     private Player _player;
-
-    #endregion
 
     #region  move_options
     [Header("Move options")]
@@ -55,10 +53,12 @@ public class Enemy : MonoBehaviour
 
     private void Start()
     {
+        GetPlayer(PlayerSpawner._playerSingoltone);
+
         _enemyCurrnetState = degenarateStateIdle;
         _enemyAnimation = new EnemyAnimate(_enemyAnimator);
     }
-    private void FixedUpdate() 
+    private void Update() 
     {
         _enemyCurrnetState();
         if(_isAlive == true)
@@ -83,12 +83,7 @@ public class Enemy : MonoBehaviour
         else
         {
             _enemyCurrnetState = degenarateStateDying;
-        }
-        
-        
-
-
-        
+        }   
     }
 
     #region degenarate_state_machine
@@ -115,7 +110,9 @@ public class Enemy : MonoBehaviour
 
     private void degenarateStateDying()
     {
+        
         StartCoroutine(IEdying());
+        
     }
 
     #endregion
@@ -128,13 +125,19 @@ public class Enemy : MonoBehaviour
         _health -= damage;
         if(_health <= 0){
             _isAlive = false;
+            EnemyDying?.Invoke();
         }
     }
+    public void GetPlayer(Player player) 
+    {
+        _player = player;
+    } 
 
     private void OnDrawGizmos() {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, _lookRadius);
     }
+
 
     private IEnumerator IEattack(){
         isAtack = true;
@@ -160,8 +163,11 @@ public class Enemy : MonoBehaviour
     }
 
     private IEnumerator IEdying(){
+        
         _enemyAnimation.ChangeAnimation(_enemyAnimation.DEAD_KEY);
         yield return new WaitForSeconds(3f);
         Destroy(this.gameObject);
     }
+
 }
+

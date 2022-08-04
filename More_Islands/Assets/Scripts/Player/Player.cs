@@ -6,7 +6,9 @@ using Zenject;
 
 public class Player : MonoBehaviour
 {
-    
+    public delegate void playerSpawnerEvent(Player player);
+    public static playerSpawnerEvent playerInit;
+
     #region injects
     [Inject]
     private PlayerMovement _playerMovement;
@@ -70,6 +72,9 @@ public class Player : MonoBehaviour
     #region unity_functions
     private void Awake()
     {
+        Debug.Log("player Awake");
+        playerInit?.Invoke(this);
+
         _playerInput = new PlayerInput();
 
         _playerInput.Player.Jump.performed += context => playerJump();
